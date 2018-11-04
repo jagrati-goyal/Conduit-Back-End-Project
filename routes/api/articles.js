@@ -14,6 +14,7 @@ const {
 } = require("../../sequelize");
 const verifyToken = require('../verifyToken');
 
+//To create an article
 router.post('/articles/', verifyToken, (req, res, next) => {
 
     User.findByPk(req.userId)
@@ -70,6 +71,7 @@ router.post('/articles/', verifyToken, (req, res, next) => {
         })
 })
 
+//To update an article
 router.put('/articles/:slug', verifyToken, (req, res, next) => {
     User.findById(req.userId)
         .then((user) => {
@@ -123,12 +125,12 @@ router.put('/articles/:slug', verifyToken, (req, res, next) => {
         })
 })
 
-//Retrieve articles from 
+//Retrieve articles
 router.get('/articles', (req, res, next) => {
-
     let limit = 10;
     let offset = 0;
 
+    //Articles filter by limit/offset/author
     if (req.query.limit || req.query.offset || req.query.author) {
         if (req.query.author) {
             limit = req.query.limit || limit;
@@ -208,7 +210,7 @@ router.get('/articles', (req, res, next) => {
     }
 })
 
-
+//To get a single article
 router.get('/articles/:slug', (req, res, next) => {
     Article.findOne({
             include: [{
@@ -246,10 +248,9 @@ router.get('/articles/:slug', (req, res, next) => {
                 })
             }
         })
-
 })
 
-
+//To delete an article
 router.delete('/articles/:slug', verifyToken, (req, res, next) => {
     User.findById(req.userId)
         .then((user) => {
@@ -269,10 +270,8 @@ router.delete('/articles/:slug', verifyToken, (req, res, next) => {
                             error: "Not authorized to delete"
                         })
                     }
-
                     article.destroy()
                         .then(() => {
-
                             res.status(204).json({
                                 message: "Article Deleted successfully"
                             })
@@ -281,6 +280,7 @@ router.delete('/articles/:slug', verifyToken, (req, res, next) => {
         })
 })
 
+//To add comments to an article
 router.post('/articles/:slug/comments', verifyToken, (req, res, next) => {
     User.findById(req.userId)
         .then((user) => {
@@ -325,6 +325,7 @@ router.post('/articles/:slug/comments', verifyToken, (req, res, next) => {
         })
 })
 
+//To get comments from an article
 router.get('/articles/:slug/comments', verifyToken, (req, res, next) => {
     User.findById(req.userId)
         .then((user) => {
@@ -363,6 +364,7 @@ router.get('/articles/:slug/comments', verifyToken, (req, res, next) => {
         })
 })
 
+//To delete comment from an article
 router.delete('/articles/:slug/comments/:id', verifyToken, (req, res, next) => {
     User.findById(req.userId)
         .then((user) => {
@@ -388,7 +390,6 @@ router.delete('/articles/:slug/comments/:id', verifyToken, (req, res, next) => {
                                         message: "Comment deleted successfully"
                                     })
                                 })
-
                         })
                         .catch((error) => {
                             res.status(404).json({
@@ -396,7 +397,6 @@ router.delete('/articles/:slug/comments/:id', verifyToken, (req, res, next) => {
                             })
                         })
                 })
-
         })
 })
 

@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const { User } = require("../../sequelize");
-const verifyToken = require("../verifyToken");
 
 //To retrieve the profile for a particular user with given username
 router.get('/profiles/:username', (req,res,next)=>{

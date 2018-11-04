@@ -182,7 +182,6 @@ router.put('/user', verifyToken, (req, res, next) => {
                 error: "Cannot access database"
             })
         })
-
 })
 
 //To  retrieve current user
